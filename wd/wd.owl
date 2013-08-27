@@ -9,7 +9,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 wd: a owl:Ontology ;
-owl:versionInfo "Revision .82"@en ;
+owl:versionInfo "Revision .83"@en ;
 dcterms:creator <http://jodischneider.com/> ;
 dcterms:contributor <http://apassant.net/> ;
 
@@ -152,8 +152,7 @@ wd:delete a wd:Outcome ;
 		wd:no_consensus ,
 		wd:redirect ,
 		wd:transwiki ,
-		wd:userfy ,
-		wd:weak_keep .
+		wd:userfy .
 		
 wd:keep a wd:Outcome ;
 	rdfs:comment "keep decision"@en ;
@@ -165,8 +164,7 @@ wd:keep a wd:Outcome ;
 		wd:no_consensus ,
 		wd:redirect ,
 		wd:transwiki ,
-		wd:userfy ,
-		wd:weak_keep .
+		wd:userfy .
 			
 wd:merge a wd:Outcome ;
 	rdfs:comment "merge decision"@en ;
@@ -178,8 +176,7 @@ wd:merge a wd:Outcome ;
 		wd:no_consensus ,
 		wd:redirect ,
 		wd:transwiki ,
-		wd:userfy ,
-		wd:weak_keep .
+		wd:userfy .
 
 wd:no_consensus a wd:Outcome ;
 	rdfs:comment "no consensus decision"@en ;
@@ -191,8 +188,7 @@ wd:no_consensus a wd:Outcome ;
 		wd:merge ,
 		wd:redirect ,
 		wd:transwiki ,
-		wd:userfy ,
-		wd:weak_keep .
+		wd:userfy .
 				
 wd:redirect a wd:Outcome ;
 	rdfs:comment "redirect decision"@en ;
@@ -204,8 +200,7 @@ wd:redirect a wd:Outcome ;
 		wd:merge ,
 		wd:no_consensus ,
 		wd:transwiki ,
-        wd:userfy ,
-        wd:weak_keep .
+        wd:userfy .
 
 wd:transwiki a wd:Outcome ;
 	rdfs:comment "transwiki decision"@en ;
@@ -217,8 +212,7 @@ wd:transwiki a wd:Outcome ;
 		wd:merge ,
 		wd:no_consensus ,
 		wd:redirect ,
-		wd:userfy ,
-		wd:weak_keep .
+		wd:userfy .
 
 wd:userfy a wd:Outcome ;
 	rdfs:comment "userfy decision"@en ;
@@ -230,22 +224,7 @@ wd:userfy a wd:Outcome ;
 		wd:merge ,
 		wd:no_consensus ,
 		wd:redirect ,
-		wd:transwiki , 
-		wd:weak_keep .
-
-# a vote but not an outcome
-wd:weak_keep a wd:Outcome ;
-	rdfs:comment "weak keep decision"@en ;
-	rdfs:isDefinedBy wd: ;
-	rdfs:label "weak keep decision"@en ;
-	owl:disjointWith 
-		wd:delete , 
-        wd:keep ,
-		wd:merge ,
-		wd:no_consensus ,
-		wd:redirect ,
-		wd:transwiki ,
-		wd: userfy.
+		wd:transwiki .
 
 #DecisionFactorInstances
 # For documentation: Multiple factors can apply; only "other" is disjoint.
