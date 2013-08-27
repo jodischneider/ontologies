@@ -1,0 +1,313 @@
+@prefix wd: <http://vocab.deri.ie/wd#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sioc: <http://rdfs.org/sioc/ns#> .
+@prefix sioct: <http://rdfs.org/sioc/types#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+wd: a owl:Ontology ;
+owl:versionInfo "Revision .82"@en ;
+dcterms:creator <http://jodischneider.com/> ;
+dcterms:contributor <http://apassant.net/> ;
+
+dcterms:created "2012-11-07"^^xsd:date ;
+dcterms:title "WD, the Wikipedia Deletion Discussion Ontology"@en ;
+dcterms:description "WD, the Wikipedia Deletion Discussion Ontology, 
+is an ontology for characterizing Wikipedia deletion discussions"@en ;
+cc:license <http://creativecommons.org/licenses/by/3.0/> .
+
+#Properties
+
+wd:has_decision_factor a owl:ObjectProperty ;
+	rdfs:comment "indicates a decision factor"@en ;
+	rdfs:domain wd:Message ;
+	rdfs:range wd:DecisionFactor .
+
+# @@TODO: document that model differs slightly from reality
+#We model this as at most one vote per message 
+#but in reality votes are VERY #OCCASIONALLY not exclusive
+#e.g. "<b>Delete</b>, or <b>Merge</b> (with redirect)"
+sioc:has_vote a owl:ObjectProperty ;
+	rdfs:comment "indicates the DecisionType outcome from the DeletionCase"@en ;
+	rdfs:domain wd:Message ;
+	rdfs:range wd:Outcome .
+
+# @@TODO: discuss with sioc list, push an inverse of has_discussion into SIOC
+wd:is_discussion_of a owl:ObjectProperty ;
+	owl:inverseOf sioc:has_discussion ;
+	rdfs:comment "The Item that is related to this discussion."@en ;
+	rdfs:range sioc:Item ;
+	rdfs:isDefinedBy wd: ;
+	rdfs:label "is discussion of"@en.
+
+#Classes
+
+# @@TODO: document facts about __instances of wd:DeletionCase__, e.g.:
+#            sioc:has_container sioct:Wiki ;
+#            wd:is_discussion_of sioct:WikiArticle .
+#
+wd:DeletionCase rdfs:subClassOf sioc:Forum ;
+	rdfs:comment "A deletion discussion in a wiki."@en ;
+	rdfs:isDefinedBy wd: ;
+	rdfs:label "Deletion Case"@en ;
+	rdfs:subClassOf [
+		owl:minCardinality 1;
+		owl:onProperty wd:is_discussion_of] .
+
+		
+# @@TODO: document that we do not expect wd:DecisionFactor(s) to be explicit.
+#         We classify messages to determine these.
+#
+wd:DecisionFactor a owl:Class ;
+	rdfs:comment "A decision factor raised in an argumentative discussion"@en ;
+	rdfs:isDefinedBy wd: ;
+	rdfs:label "Decision Factor"@en ;
+	owl:disjointWith 
+		wd:DeletionCase ,
+		wd:Message ,
+		wd:Outcome ,
+		sioc:UserAccount .
+
+# @@TODO: document facts about __instances of wd:Message__, e.g.:
+#             sioc:has_container wd:DeletionCase ; 
+#             sioc:has_creator wd:commenter .	
+#
+wd:Message rdfs:subClassOf sioc:Post ;
+	rdfs:comment "A message in a deletion discussion"@en ;
+	rdfs:isDefinedBy wd: ;
+	rdfs:label "Message"@en ;
+	owl:disjointWith 
+		wd:DeletionCase ,
+		wd:DecisionFactor ,
+		wd:Outcome ,
+		sioc:UserAccount.
+
+wd:Outcome a rdfs:Class ;
+	owl:disjointWith
+	wd:DeletionCase ,
+	wd:DecisionFactor ,
+	wd:Message ,
+	sioc:UserAccount .
+
+wd:has_decided_outcome a rdfs:Property ;
+	rdfs:comment "The decision made following an argumentative discussion"@en ;
+	rdfs:label "Decided Outcome"@en ;
+	rdfs:range :Outcome .
+
+wd:has_possible_outcome a rdfs:Property ;
+	rdfs:comment "A possible outcome for an argumentative discussion"@en ;
+	rdfs:label "Possible Outcome"@en ;
+	rdfs:range :Outcome  .
+
+#owl:unionOf is not part of OWL Lite (for OWL 2, need OWL 2 RL)
+wd:UserAccount rdfs:subClassOf sioc:UserAccount ;
+	owl:unionOf (wd:IP_AddressUserAccount wd:AuthenticatedUserAccount) . 
+
+wd:IP_AddressUserAccount rdfs:subClassOf sioc:UserAccount ;
+# We need to make the relationship with sioc:ip_address clear.
+# In SIOC, sioc:ip_address is a DataTypeProperty with Domain:sioc:Item
+# But sioc:UserAccount is a subclass of foaf:OnlineAccount
+# The lack of parallels seems problematic to me
+# because when we want to point to the 
+# sioc:UserAccount associated with a wd:Message, 
+# we need an answer, even if a sioc:ip_address is listed.
+	owl:disjointWith wd:DeletionCase,
+	wd:Message,
+	wd:DecisionFactor ,
+	wd:Outcome ,
+	wd:AuthenticatedUserAccount .
+
+wd:AuthenticatedUserAccount rdfs:subClassOf sioc:UserAccount ;
+	owl:disjointWith wd:DeletionCase,
+	wd:Message,
+	wd:DecisionFactor ,
+	wd:Outcome ,
+	wd:IP_AddressUserAccount .
+
+# @@TODO: document facts about __instance of wd:Bot__, e.g.:
+#          sioc:has_owner wd:BotOperator .
+wd:Bot rdf:type wd:AuthenticatedUserAccount .
+
+# @@TODO: document that we assume (but do not model) that 
+#    we are talking about ONE sioct:Wiki shared by both 
+#    the administrator and the discussion.
+wd:Administrator rdf:type wd:AuthenticatedUserAccount .
+
+wd:Relist rdfs:subClassof wd:Message . 
+
+#Instances
+
+# @@TODO: document that these are not comprehensive for votes
+# e.g. we do not model weak_keep (use keep)
+wd:delete a wd:Outcome ;
+	rdfs:comment "delete decision"@en ;
+	rdfs:isDefinedBy wd: ;
+	rdfs:label "delete decision"@en ;
+	owl:disjointWith 
+		wd:keep ,
+		wd:merge ,
+		wd:no_consensus ,
+		wd:redirect ,
+		wd:transwiki ,
+		wd:userfy ,
+		wd:weak_keep .
+		
+wd:keep a wd:Outcome ;
+	rdfs:comment "keep decision"@en ;
+	rdfs:isDefinedBy wd: ;
+	rdfs:label "keep decision"@en ;
+	owl:disjointWith 
+		wd:delete ,
+		wd:merge ,
+		wd:no_consensus ,
+		wd:redirect ,
+		wd:transwiki ,
+		wd:userfy ,
+		wd:weak_keep .
+			
+wd:merge a wd:Outcome ;
+	rdfs:comment "merge decision"@en ;
+	rdfs:isDefinedBy wd: ;
+	rdfs:label "merge decision"@en ;
+	owl:disjointWith
+		wd:delete , 
+		wd:keep ,	
+		wd:no_consensus ,
+		wd:redirect ,
+		wd:transwiki ,
+		wd:userfy ,
+		wd:weak_keep .
+
+wd:no_consensus a wd:Outcome ;
+	rdfs:comment "no consensus decision"@en ;
+	rdfs:isDefinedBy wd: ;
+	rdfs:label "no consensus"@en ;
+	owl:disjointWith
+		wd:delete , 
+		wd:keep ,
+		wd:merge ,
+		wd:redirect ,
+		wd:transwiki ,
+		wd:userfy ,
+		wd:weak_keep .
+				
+wd:redirect a wd:Outcome ;
+	rdfs:comment "redirect decision"@en ;
+	rdfs:isDefinedBy wd: ;
+	rdfs:label "redirect decision"@en ;
+	owl:disjointWith
+		wd:delete , 
+		wd:keep ,
+		wd:merge ,
+		wd:no_consensus ,
+		wd:transwiki ,
+        wd:userfy ,
+        wd:weak_keep .
+
+wd:transwiki a wd:Outcome ;
+	rdfs:comment "transwiki decision"@en ;
+	rdfs:isDefinedBy wd: ;
+	rdfs:label "transwiki decision"@en ;
+	owl:disjointWith 
+		wd:delete , 
+		wd:keep ,
+		wd:merge ,
+		wd:no_consensus ,
+		wd:redirect ,
+		wd:userfy ,
+		wd:weak_keep .
+
+wd:userfy a wd:Outcome ;
+	rdfs:comment "userfy decision"@en ;
+	rdfs:isDefinedBy wd: ;
+	rdfs:label "userfy decision"@en ;
+	owl:disjointWith 
+		wd:delete ,
+        wd:keep ,
+		wd:merge ,
+		wd:no_consensus ,
+		wd:redirect ,
+		wd:transwiki , 
+		wd:weak_keep .
+
+# a vote but not an outcome
+wd:weak_keep a wd:Outcome ;
+	rdfs:comment "weak keep decision"@en ;
+	rdfs:isDefinedBy wd: ;
+	rdfs:label "weak keep decision"@en ;
+	owl:disjointWith 
+		wd:delete , 
+        wd:keep ,
+		wd:merge ,
+		wd:no_consensus ,
+		wd:redirect ,
+		wd:transwiki ,
+		wd: userfy.
+
+#DecisionFactorInstances
+# For documentation: Multiple factors can apply; only "other" is disjoint.
+
+wd:bias a wd:DecisionFactor ;
+	rdfs:comment "bias"@en ;
+	rdfs:isDefinedBy wd: ;
+	rdfs:label "bias"@en .
+
+wd:maintenance a wd:DecisionFactor ;
+	rdfs:comment "maintenance"@en ;
+	rdfs:isDefinedBy wd: ;
+	rdfs:label "maintenance"@en .
+	
+wd:sources a wd:DecisionFactor  ;
+	rdfs:comment "sources"@en ;
+	rdfs:isDefinedBy wd: ;
+	rdfs:label "sources"@en .
+	
+wd:notability a wd:DecisionFactor  ;
+	rdfs:comment "notability"@en ;
+	rdfs:isDefinedBy wd: ;
+	rdfs:label "notability"@en .
+	
+wd:other a wd:DecisionFactor  ;
+	rdfs:comment "used when no listed factors apply"@en ;
+	rdfs:isDefinedBy wd: ;
+	rdfs:label "maintenance"@en ;
+	owl:disjointWith 
+		wd:bias ,
+		wd:maintenance ,
+		wd:sources ,
+		wd:notability .
+
+#Role Instances
+
+wd:nominator rdf:type sioc:Role ; 
+	sioc:function_of wd:AuthenticatedUserAccount ; 
+	sioc:has_scope wd:DeletionCase .
+
+wd:commenter rdf:type sioc:Role ; 
+	sioc:function_of wd:UserAccount ; 
+	sioc:has_scope wd:DeletionCase .
+
+# @@TODO: document that model differs slightly from reality
+# usually but not always an administrator
+# *always* an administrator if the outcome is delete
+wd:closer rdf:type sioc:Role ; 
+	sioc:function_of wd:AuthenticatedUserAccount ; 
+	sioc:has_scope wd:DeletionCase .
+
+
+#Message Instances
+
+# ArgumentativeMessage and Vote are neither disjoint nor synonymous.
+
+# For documentation:
+#	sioc:has_creator sioc:commenter ;
+#	sioc:has_vote wd:PossibleOutcome .
+wd:Vote rdfs:subClassOf wd:Message .
+
+# For documentation:
+#	sioc:has_creator sioc:commenter ;
+#	sioc:has_argument wd:DecisionFactor .
+wd:ArgumentativeMessage rdfs:subClassOf wd:Message .
