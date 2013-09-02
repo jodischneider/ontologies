@@ -94,12 +94,12 @@ wd:Outcome a rdfs:Class ;
 
 wd:has_decided_outcome a rdfs:Property ;
 	rdfs:comment "The decision made following an argumentative discussion"@en ;
-	rdfs:label "Decided Outcome"@en ;
+	rdfs:label "Has Decided Outcome"@en ;
 	rdfs:range :Outcome .
 
 wd:has_possible_outcome a rdfs:Property ;
 	rdfs:comment "A possible outcome for an argumentative discussion"@en ;
-	rdfs:label "Possible Outcome"@en ;
+	rdfs:label "Has Possible Outcome"@en ;
 	rdfs:range :Outcome  .
 
 #owl:unionOf is not part of OWL Lite (for OWL 2, need OWL 2 RL)
@@ -142,137 +142,137 @@ wd:Relist rdfs:subClassof wd:Message .
 
 # @@TODO: document that these are not comprehensive for votes
 # e.g. we do not model weak_keep (use keep)
-wd:delete a wd:Outcome ;
+wd:Delete a wd:Outcome ;
 	rdfs:comment "delete decision"@en ;
 	rdfs:isDefinedBy wd: ;
 	rdfs:label "delete decision"@en ;
 	owl:disjointWith 
-		wd:keep ,
-		wd:merge ,
-		wd:no_consensus ,
-		wd:redirect ,
-		wd:transwiki ,
-		wd:userfy .
+		wd:Keep ,
+		wd:Merge ,
+		wd:No_consensus ,
+		wd:Redirect ,
+		wd:Transwiki ,
+		wd:Userfy .
 		
-wd:keep a wd:Outcome ;
+wd:Keep a wd:Outcome ;
 	rdfs:comment "keep decision"@en ;
 	rdfs:isDefinedBy wd: ;
 	rdfs:label "keep decision"@en ;
 	owl:disjointWith 
-		wd:delete ,
-		wd:merge ,
-		wd:no_consensus ,
-		wd:redirect ,
-		wd:transwiki ,
-		wd:userfy .
+		wd:Delete ,
+		wd:Merge ,
+		wd:No_consensus ,
+		wd:Redirect ,
+		wd:Transwiki ,
+		wd:Userfy .
 			
 wd:merge a wd:Outcome ;
 	rdfs:comment "merge decision"@en ;
 	rdfs:isDefinedBy wd: ;
 	rdfs:label "merge decision"@en ;
 	owl:disjointWith
-		wd:delete , 
-		wd:keep ,	
-		wd:no_consensus ,
-		wd:redirect ,
-		wd:transwiki ,
-		wd:userfy .
+		wd:Delete , 
+		wd:Keep ,	
+		wd:No_consensus ,
+		wd:Redirect ,
+		wd:Transwiki ,
+		wd:Userfy .
 
-wd:no_consensus a wd:Outcome ;
-	rdfs:comment "no consensus decision"@en ;
+wd:No_consensus a wd:Outcome ;
+	rdfs:comment "No consensus decision"@en ;
 	rdfs:isDefinedBy wd: ;
-	rdfs:label "no consensus"@en ;
+	rdfs:label "No consensus"@en ;
 	owl:disjointWith
-		wd:delete , 
-		wd:keep ,
-		wd:merge ,
-		wd:redirect ,
-		wd:transwiki ,
-		wd:userfy .
+		wd:Delete , 
+		wd:Keep ,
+		wd:Merge ,
+		wd:Redirect ,
+		wd:Transwiki ,
+		wd:Userfy .
 				
-wd:redirect a wd:Outcome ;
-	rdfs:comment "redirect decision"@en ;
+wd:Redirect a wd:Outcome ;
+	rdfs:comment "Redirect decision"@en ;
 	rdfs:isDefinedBy wd: ;
-	rdfs:label "redirect decision"@en ;
+	rdfs:label "Redirect decision"@en ;
 	owl:disjointWith
-		wd:delete , 
-		wd:keep ,
-		wd:merge ,
-		wd:no_consensus ,
-		wd:transwiki ,
-        wd:userfy .
+		wd:Delete , 
+		wd:Keep ,
+		wd:Merge ,
+		wd:No_consensus ,
+		wd:Transwiki ,
+                wd:Userfy .
 
-wd:transwiki a wd:Outcome ;
-	rdfs:comment "transwiki decision"@en ;
+wd:Transwiki a wd:Outcome ;
+	rdfs:comment "Transwiki decision"@en ;
 	rdfs:isDefinedBy wd: ;
-	rdfs:label "transwiki decision"@en ;
+	rdfs:label "Transwiki decision"@en ;
 	owl:disjointWith 
-		wd:delete , 
-		wd:keep ,
-		wd:merge ,
-		wd:no_consensus ,
-		wd:redirect ,
-		wd:userfy .
+		wd:Delete , 
+		wd:Keep ,
+		wd:Merge ,
+		wd:No_consensus ,
+		wd:Redirect ,
+		wd:Userfy .
 
-wd:userfy a wd:Outcome ;
-	rdfs:comment "userfy decision"@en ;
+wd:Userfy a wd:Outcome ;
+	rdfs:comment "Userfy decision"@en ;
 	rdfs:isDefinedBy wd: ;
-	rdfs:label "userfy decision"@en ;
+	rdfs:label "Userfy decision"@en ;
 	owl:disjointWith 
-		wd:delete ,
-        wd:keep ,
-		wd:merge ,
-		wd:no_consensus ,
-		wd:redirect ,
-		wd:transwiki .
+		wd:Delete ,
+                wd:Keep ,
+		wd:Merge ,
+		wd:No_consensus ,
+		wd:Redirect ,
+		wd:Transwiki .
 
 #DecisionFactorInstances
 # For documentation: Multiple factors can apply; only "other" is disjoint.
 
-wd:bias a wd:DecisionFactor ;
-	rdfs:comment "bias"@en ;
+wd:Bias a wd:DecisionFactor ;
+	rdfs:comment "Bias"@en ;
 	rdfs:isDefinedBy wd: ;
-	rdfs:label "bias"@en .
+	rdfs:label "Bias"@en .
 
-wd:maintenance a wd:DecisionFactor ;
-	rdfs:comment "maintenance"@en ;
+wd:Maintenance a wd:DecisionFactor ;
+	rdfs:comment "Maintenance"@en ;
 	rdfs:isDefinedBy wd: ;
-	rdfs:label "maintenance"@en .
+	rdfs:label "Maintenance"@en .
 	
-wd:sources a wd:DecisionFactor  ;
-	rdfs:comment "sources"@en ;
+wd:Sources a wd:DecisionFactor  ;
+	rdfs:comment "Sources"@en ;
 	rdfs:isDefinedBy wd: ;
-	rdfs:label "sources"@en .
+	rdfs:label "Sources"@en .
 	
-wd:notability a wd:DecisionFactor  ;
-	rdfs:comment "notability"@en ;
+wd:Notability a wd:DecisionFactor  ;
+	rdfs:comment "Notability"@en ;
 	rdfs:isDefinedBy wd: ;
-	rdfs:label "notability"@en .
+	rdfs:label "Notability"@en .
 	
-wd:other a wd:DecisionFactor  ;
+wd:Other a wd:DecisionFactor  ;
 	rdfs:comment "used when no listed factors apply"@en ;
 	rdfs:isDefinedBy wd: ;
-	rdfs:label "maintenance"@en ;
+	rdfs:label "Other"@en ;
 	owl:disjointWith 
-		wd:bias ,
-		wd:maintenance ,
-		wd:sources ,
-		wd:notability .
+		wd:Bias ,
+		wd:Maintenance ,
+		wd:Sources ,
+		wd:Notability .
 
 #Role Instances
 
-wd:nominator rdf:type sioc:Role ; 
+wd:Nominator rdf:type sioc:Role ; 
 	sioc:function_of wd:AuthenticatedUserAccount ; 
 	sioc:has_scope wd:DeletionCase .
 
-wd:commenter rdf:type sioc:Role ; 
+wd:Commenter rdf:type sioc:Role ; 
 	sioc:function_of wd:UserAccount ; 
 	sioc:has_scope wd:DeletionCase .
 
 # @@TODO: document that model differs slightly from reality
 # usually but not always an administrator
 # *always* an administrator if the outcome is delete
-wd:closer rdf:type sioc:Role ; 
+wd:Closer rdf:type sioc:Role ; 
 	sioc:function_of wd:AuthenticatedUserAccount ; 
 	sioc:has_scope wd:DeletionCase .
 
