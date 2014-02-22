@@ -261,7 +261,7 @@ wd:Nominator rdf:type sioc:Role ;
 	sioc:has_scope wd:DeletionCase .
 
 wd:Commenter rdf:type sioc:Role ; 
-	sioc:function_of wd:UserAccount ; 
+	sioc:function_of sioc:UserAccount ; 
 	sioc:has_scope wd:DeletionCase .
 
 # @@TODO: document that model differs slightly from reality
