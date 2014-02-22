@@ -64,7 +64,7 @@ wd:DecisionFactor a owl:Class ;
 	rdfs:comment "A decision factor raised in an argumentative discussion"@en ;
 	rdfs:isDefinedBy wd: ;
 	rdfs:label "Decision Factor"@en ;
-	owl:differentFrom 
+	owl:disjointWith 
 		wd:DeletionCase ,
 		wd:Message ,
 		wd:Outcome ,
@@ -78,14 +78,14 @@ wd:Message rdfs:subClassOf sioc:Post ;
 	rdfs:comment "A message in a deletion discussion"@en ;
 	rdfs:isDefinedBy wd: ;
 	rdfs:label "Message"@en ;
-	owl:differentFrom 
+	owl:disjointWith 
 		wd:DeletionCase ,
 		wd:DecisionFactor ,
 		wd:Outcome ,
 		sioc:UserAccount.
 
 wd:Outcome a rdfs:Class ;
-	owl:differentFrom
+	owl:disjointWith
 	wd:DeletionCase ,
 	wd:DecisionFactor ,
 	wd:Message ,
@@ -109,14 +109,14 @@ wd:IP_AddressUserAccount rdfs:subClassOf sioc:UserAccount ;
 # because when we want to point to the 
 # sioc:UserAccount associated with a wd:Message, 
 # we need an answer, even if a sioc:ip_address is listed.
-	owl:differentFrom wd:DeletionCase,
+	owl:disjointWith wd:DeletionCase,
 	wd:Message,
 	wd:DecisionFactor ,
 	wd:Outcome ,
 	wd:AuthenticatedUserAccount .
 
 wd:AuthenticatedUserAccount rdfs:subClassOf sioc:UserAccount ;
-	owl:differentFrom wd:DeletionCase,
+	owl:disjointWith wd:DeletionCase,
 	wd:Message,
 	wd:DecisionFactor ,
 	wd:Outcome ,
