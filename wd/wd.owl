@@ -9,7 +9,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 wd: a owl:Ontology ;
-owl:versionInfo "Revision .83"@en ;
+owl:versionInfo "Revision .85"@en ;
 dcterms:creator <http://jodischneider.com/> ;
 dcterms:contributor <http://apassant.net/> ;
 dcterms:created "2012-11-07"^^xsd:date ;
